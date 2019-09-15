@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import { withLang } from "./I18n";
+export const LangCtx = React.createContext();
+const eng = { hello: "hello" };
+const ita = { hello: "ciao" };
+const spa = { hello: "hola" };
+const fre = { hello: "salut" };
+const por = { hello: "olá" };
+
+const langs = [eng, ita, spa, fre, por];
+let i = 0;
 
 function App() {
+  const [dict, setDict] = useState();
+
+  setTimeout(() => {
+    i++;
+    setDict(langs[i % langs.length]);
+  }, 2000);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LangCtx.Provider value={dict}>
+      <div className="App">
+        <h1> {withLang("hello")}</h1>
+      </div>
+    </LangCtx.Provider>
   );
 }
 
